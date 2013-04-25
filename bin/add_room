@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+$VERBOSE = true
+
+require_relative '../lib/radventure_machine'
+
+fail "Usage: #{$PROGRAM_NAME} STORY_NAME ROOM_NAME ROOM_DESCRIPTION EXIT_DIRECTION:ROOM ..." unless ARGV.length > 3
+
+RadventureMachine.add_room(ARGV)
