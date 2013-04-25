@@ -5,24 +5,19 @@ require_relative 'radventure_machine/room'
 module RadventureMachine
   def self.add_room(args)
     story_name = args[0]
-    setup_db(story_name)
-    @db.add_room(args[1], args[2], args[3..-1])
+    db = DBManager.new(story_name)
+    db.add_room(args[1], args[2], args[3..-1])
   end
 
   def self.build_world(story_name)
-    setup_db(story_name)
-    @db.get_rooms do |room|
+    db = DBManager.new(story_name)
+    db.get_rooms do |room|
       build_room(room)
     end
     setup_exits(self.instance_variables)
   end
 
   private
-
-  def self.setup_db(story_name)
-    @db = DBManager.new(story_name)
-  end
-
 
   def self.build_room(room)
     instance_variable_set("@#{room["name"]}",
@@ -31,6 +26,11 @@ module RadventureMachine
   end
 
   def self.setup_exits(rooms)
+    rooms.each do |room|
+      p room.name
+      # @db.get_exits(room.name).each do |exits|
+      #   p exits
+    end
   end
 
   # def self.play(args)
