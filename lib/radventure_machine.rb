@@ -17,7 +17,11 @@ module RadventureMachine
   def self.play(story_name)
     setup_game(story_name)
     puts @player.location.description
-    start_game
+
+    while command = $stdin.gets().strip.split(" ")
+      @player.check_actions(command)
+      puts @player.location.description
+    end
   end
 
   private
@@ -44,8 +48,8 @@ module RadventureMachine
   def self.setup_exits(rooms)
     rooms.each do |name, room|
       @db.get_exits(room.name) do |exit|
-        exit.select do |key, value|
-          room.add_exit(key.to_sym, rooms[value]) if value
+        exit.select do |exit_name, room_name|
+          room.add_exit(exit_name.to_sym, rooms[room_name]) if room_name
         end
       end
     end
@@ -54,12 +58,5 @@ module RadventureMachine
   def self.setup_player
     @player = Player.new(@rooms["living_room"])
     @player.add_action(WalkAction.new)
-  end
-
-  def self.start_game
-    while command = $stdin.gets().strip.split(" ")
-      @player.check_actions(command)
-      puts @player.location.description
-    end
   end
 end
