@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+$VERBOSE = true
+
+require_relative '../lib/radventure_machine'
+
+fail "Usage: #{$PROGRAM_NAME} STORY_NAME" unless ARGV.length == 1
+
+RadventureMachine.play(ARGV[0])

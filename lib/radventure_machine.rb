@@ -14,14 +14,10 @@ module RadventureMachine
     @db.add_room(args[1], args[2], args[3..-1])
   end
 
-  def self.play(args)
-    setup_game(args.first)
+  def self.play(story_name)
+    setup_game(story_name)
     puts @player.location.description
-
-    while command = gets().strip.split(" ")
-      @player.check_actions(command)
-      puts @player.location.description
-    end
+    start_game
   end
 
   private
@@ -58,5 +54,12 @@ module RadventureMachine
   def self.setup_player
     @player = Player.new(@rooms["living_room"])
     @player.add_action(WalkAction.new)
+  end
+
+  def self.start_game
+    while command = $stdin.gets().strip.split(" ")
+      @player.check_actions(command)
+      puts @player.location.description
+    end
   end
 end
