@@ -1,5 +1,4 @@
 require "pg"
-require_relative 'room.rb'
 
 module RadventureMachine
   class DBManager

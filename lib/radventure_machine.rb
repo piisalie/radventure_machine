@@ -28,12 +28,11 @@ module RadventureMachine
 
   def self.setup_game(story_name)
     setup_db(story_name)
-    build_world(story_name)
+    build_world
     setup_player
   end
 
-  def self.build_world(story_name)
-    setup_db(story_name)
+  def self.build_world
     @rooms = { }
     @db.get_rooms do |room|
       @rooms[room.name] = room
