@@ -16,7 +16,8 @@ module RadventureMachine
     end
 
     def get_rooms
-      @db.exec("SELECT name, description FROM rooms;").each do |room|
+      @db.exec("SELECT name, description FROM rooms;").each do |row|
+        room = Room.new(row["name"], row["description"])
         yield room
       end
     end
