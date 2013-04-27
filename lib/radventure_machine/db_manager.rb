@@ -23,8 +23,8 @@ module RadventureMachine
 
     def get_exits(room)
       @db.exec("SELECT east, west, up, down FROM rooms
-                WHERE name = $1;", [room]).each do |exits|
-        yield exits
+                WHERE name = $1;", [room]).each do |exit_hash|
+        return exit_hash
       end
     end
 

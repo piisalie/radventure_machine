@@ -46,12 +46,15 @@ module RadventureMachine
 
   def self.setup_exits(rooms)
     rooms.each do |name, room|
-      @db.get_exits(room.name) do |exit|
-        exit.select do |exit_name, room_name|
-          room.add_exit(exit_name.to_sym, rooms[room_name]) if room_name
-        end
+      lookup_exits(name).each do |direction, room_name|
+        room.add_exit(direction.to_sym, rooms[room_name])
       end
     end
+  end
+
+  def self.lookup_exits(room)
+    @db.get_exits(room).delete_if {|direction, room_name|
+      room_name.nil? }
   end
 
   def self.setup_player
